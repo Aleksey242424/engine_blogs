@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+</head>
+<body>
+    {% include 'chat/_search_form.html' %}
+    {%set username_token = g.token('username',current_user.username)%}
+    <a href="{{url_for('profile_bp.profile',token=username_token)}}">profile</a>
+    <form action="" method="post" novalidate>
+        {{form.hidden_tag()}}
+        {{form.csrf_token()}}
+        {{form.message()}}
+        {{form.send()}}
+    </form>
+    {%for message in messages%}
+    <div class="message" >
+        {%set username_token = g.token('username',message[1])%}
+        {{message[0].date_send}}
+        <a href='{{url_for("profile_bp.profile",token=username_token)}}'>{{message[1]}}</a>
+        {{message[0].message}}
+    </div>
+    {%endfor%}
+</body>
+</html>

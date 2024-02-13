@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    {%include 'profile/_search_form.html'%}
+    <form action="{{url_for('profile_bp.profile',token=token)}}" method="post" novalidate enctype="multipart/form-data">
+        <img src="{{url_for('static',filename=user.avatar)}}" width="300px" height="300px">
+        {{form.hidden_tag()}}
+        {{form.csrf_token()}}
+        {{form.avatar()}}
+        {{form.change_avatar()}}
+    </form>
+    {{user.username}}
+    {%if user.about_me%}
+        {{user.about_me}}
+    {%else%}
+        <a href="{{url_for('profile_bp.change_profile',token=token)}}">Расскажите про себя</a>
+    {%endif%}
+    {{user.last_seen}}
+    {%for post in my_posts%}
+    <a href="{{url_for('post_bp.post',token=g.token('post_id',post.post_id))}}">{{post.title}}</a>
+    {%endfor%}
+    {%for i  in range(count_group)%}
+    {%if i+1 == page%}
+        <a href="{{url_for('profile_bp.profile',token=token,page=i+1)}}">...</a>
+    {%else%}
+        <a href="{{url_for('profile_bp.profile',token=token,page=i+1)}}">{{i+1}}</a>
+    {%endif%}
+    {%endfor%}
+</body>
+</html>

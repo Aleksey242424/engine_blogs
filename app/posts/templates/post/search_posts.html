@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search posts</title>
+</head>
+<body>
+    {%for data in posts%}
+    <a href='{{url_for("post_bp.post",token=g.token("post_id",data["_id"]))}}'>{{data['_source']['post_name']}}</a><br>
+    {%endfor%}
+    {%for i in range(count_group)%}
+    <a href="{{url_for('post_bp.search_posts',page=i+1,search=search)}}">{{i+1}}</a>
+    {%endfor%}
+</body>
+</html>

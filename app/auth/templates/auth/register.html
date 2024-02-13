@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form action="{{url_for('auth_bp.register')}}" method="post" novalidate>
+        {{form.hidden_tag()}}
+        {{form.csrf_token()}}
+        {{form.username()}}
+        {{form.password()}}
+        {{form.repeat_password()}}
+        {{form.email()}}
+        {{form.remember_me()}}
+        {{form.register()}}
+    </form>
+</body>
+</html>

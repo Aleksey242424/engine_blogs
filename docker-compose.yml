@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  flask:
+    build: .
+    container_name: flask
+    ports:
+      - 5000:5000
+    depends_on:
+      - pgdb
+
+  pgdb:
+    image: postgres
+    container_name: pgdb
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    
+    volumes:
+      - pgdb_data:/var/lib/postgresql/data
+
+volumes:
+  pgdb_data: null
