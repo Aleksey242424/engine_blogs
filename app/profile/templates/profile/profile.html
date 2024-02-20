@@ -3,33 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/profile.css')}}">
     <title>Profile</title>
 </head>
 <body>
-    {%include 'profile/_search_form.html'%}
-    <form action="{{url_for('profile_bp.profile',token=token)}}" method="post" novalidate enctype="multipart/form-data">
-        <img src="{{url_for('static',filename=user.avatar)}}" width="300px" height="300px">
-        {{form.hidden_tag()}}
-        {{form.csrf_token()}}
-        {{form.avatar()}}
-        {{form.change_avatar()}}
-    </form>
-    {{user.username}}
-    {%if user.about_me%}
-        {{user.about_me}}
-    {%else%}
-        <a href="{{url_for('profile_bp.change_profile',token=token)}}">Расскажите про себя</a>
-    {%endif%}
-    {{user.last_seen}}
-    {%for post in my_posts%}
-    <a href="{{url_for('post_bp.post',token=g.token('post_id',post.post_id))}}">{{post.title}}</a>
-    {%endfor%}
-    {%for i  in range(count_group)%}
-    {%if i+1 == page%}
-        <a href="{{url_for('profile_bp.profile',token=token,page=i+1)}}">...</a>
-    {%else%}
-        <a href="{{url_for('profile_bp.profile',token=token,page=i+1)}}">{{i+1}}</a>
-    {%endif%}
-    {%endfor%}
+    <header>
+        {%include 'profile/_search_form.html'%}
+        <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
+        <a href="{{url_for('post_bp.create_post')}}">create post</a>
+    </header>
+    <div class="wraper">
+        <div class="part_1">
+            <div class="info">
+                <p>{{user.username}}</p>
+                {%if user.about_me%}
+                    {{user.about_me}}
+                {%else%}
+                    <a href="{{url_for('profile_bp.change_profile',token=token)}}">Расскажите про себя</a>
+                {%endif%}
+                <p>{{moment(user.last_seen).fromNow()}}</p>
+                {{moment.include_moment()}}
+                {{moment.lang('ru')}}
+                <a href="{{url_for('profile_bp.change_profile',token=token)}}" class="change">Изменить</a>
+            </div>
+            <form action="{{url_for('profile_bp.profile',token=token)}}" method="post" novalidate enctype="multipart/form-data" class="avatar-form">
+                <img src="{{url_for('static',filename=user.avatar)}}" width="200px" height="200px">
+                {%with messages = get_flashed_messages()%}
+                {{messages[0]}}
+                {%endwith%}
+                {{form.hidden_tag()}}
+                {{form.csrf_token()}}
+                {{form.avatar()}}
+                {{form.change_avatar()}}
+                {%if current_user.username != username%}
+                <a href="{{url_for('chat_bp.messages',username=g.token('username',username))}}">написать</a>
+                {%endif%}
+            </form>
+        </div>
+        <div class="part_2">
+            <p>posts</p>
+            <div class="post-container">
+                {%for post in my_posts%}
+                <a href="{{url_for('post_bp.post',token=g.token('post_id',post.post_id))}}" class="post">{{post.title}}</a>
+                {%endfor%}
+            </div>
+            <div class="page-container">
+                {%for i  in range(count_group)%}
+                {%if i+1 == page%}
+                    <a href="{{url_for('profile_bp.profile',token=token,page=i+1)}}">...</a>
+                {%else%}
+                    <a href="{{url_for('profile_bp.profile',token=token,page=i+1)}}">{{i+1}}</a>
+                {%endif%}
+                {%endfor%}
+            </div> 
+        </div>
+    </div>
 </body>
 </html>

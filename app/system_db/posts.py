@@ -1,4 +1,6 @@
 from app.system_db import db_session
+from sqlalchemy import func
+
 
 class Posts:
     @staticmethod
@@ -57,6 +59,22 @@ class Posts:
             
             count_group = int(-1*(count/3)//1*-1)
             return count_group
+        
+    @staticmethod
+    def get_posts(page):
+        from app.system_db.models import Posts,LikesDislikes
+        with db_session() as session:
+            posts = session.query(Posts).order_by(Posts.post_id.desc()).offset((page-1)*3).limit(3).all()
+            return posts
+        
+    @staticmethod
+    def get_recom_posts(page):
+        from app.system_db.models import Posts,LikesDislikes
+        with db_session() as session:
+            posts = session.query(Posts).join(LikesDislikes,Posts.post_id==LikesDislikes.post_id).filter(LikesDislikes.likes == 'True').group_by(Posts.post_id).order_by(func.count(LikesDislikes.likes).desc()).offset((page-1)*3).limit(3).all()
+            return posts
+    
+    
 
 
 

@@ -12,3 +12,6 @@ class SetPreviewForm(FlaskForm):
     preview = FileField()
     set_preview = SubmitField(label='set preview')
 
+class LikeDislikeForm(FlaskForm):
+    like = SubmitField(label='+')
+    dislike = SubmitField(label='-')

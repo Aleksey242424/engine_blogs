@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+</head>
+<body>
+    <header>
+        {%include 'profile/_search_form.html'%}
+        <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
+        <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('post_bp.create_post')}}">create post</a>
+    </header>
+    {%for post in posts%}
+    <div>
+        {{post.title}}
+        {{post.body}}
+    </div>
+    {%endfor%}
+</body>
+</html>

@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/create_post.css')}}">
     <title>Create post</title>
 </head>
 <body>
+    <header>
+        <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('profile_bp.profile',token=token)}}" style="border: solid 0px;">
+            <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
+        </a>
+    </header>
     <form action="{{url_for('post_bp.create_post')}}" method="post" novalidate>
         {{form.hidden_tag()}}
         {{form.csrf_token()}}

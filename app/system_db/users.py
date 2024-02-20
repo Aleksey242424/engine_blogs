@@ -59,3 +59,9 @@ class Users:
             user = session.query(Users).get(user_id)
             user.avatar = avatar
             session.commit()
+    @staticmethod
+    def get_id(username):
+        from app.system_db.models import Users
+        with db_session() as session:
+            user_id = session.query(Users.user_id).filter_by(username=username).scalar()
+            return user_id

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/chats_user.css')}}">
+    <title>Chats user</title>
+</head>
+<body>
+    <header>
+        {% include 'chat/_search_form.html' %}
+        <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('post_bp.create_post')}}">create post</a>
+        {%set username_token = g.token('username',current_user.username)%}
+        <a href="{{url_for('profile_bp.profile',token=username_token)}}" style="border: solid 0px;">
+            <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
+        </a>
+    </header>
+    <div class="wraper">
+        {%for chat in chats%}
+        <a href="{{url_for('chat_bp.messages',username=g.token('username',chat.username))}}">
+            <div>
+                <div>
+                    <img src="{{url_for('static',filename=chat.avatar)}}" width="80px" height="80px">
+                    <h1>{{chat.username}}</h1>
+                </div>
+            </div>
+        </a>
+        {%endfor%}
+    </div>
+</body>
+</html>

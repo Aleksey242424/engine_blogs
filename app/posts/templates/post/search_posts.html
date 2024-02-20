@@ -3,14 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/search_posts.css')}}">
     <title>Search posts</title>
 </head>
 <body>
-    {%for data in posts%}
-    <a href='{{url_for("post_bp.post",token=g.token("post_id",data["_id"]))}}'>{{data['_source']['post_name']}}</a><br>
-    {%endfor%}
-    {%for i in range(count_group)%}
-    <a href="{{url_for('post_bp.search_posts',page=i+1,search=search)}}">{{i+1}}</a>
-    {%endfor%}
+    <header>
+        {%include 'profile/_search_form.html'%}
+        <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
+        <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('post_bp.create_post')}}">create post</a>
+        <a href="{{url_for('profile_bp.profile',token=token)}}" style="border: solid 0px;">
+            <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
+        </a>
+    </header>
+    <div class="wraper">
+        <div class="post-container">
+            {%if posts%}
+                {%for data in posts%}
+                <a href='{{url_for("post_bp.post",token=g.token("post_id",data["_id"]))}}' class="post">{{data['_source']['post_name']}}</a><br>
+                {%endfor%}
+            {%else%}
+            <p class="message">По вашему запросу ничего не найдено</p>
+            {%endif%}
+        </div>
+    </div>
+    <div class="page-container">
+        {%for i  in range(count_group)%}
+        {%if i+1 == page%}
+            <a href="{{url_for('post_bp.search_posts',search=search,page=i+1)}}">...</a>
+        {%else%}
+            <a href="{{url_for('post_bp.search_posts',search=search,page=i+1)}}">{{i+1}}</a>
+        {%endif%}
+        {%endfor%}
+    </div> 
 </body>
 </html>

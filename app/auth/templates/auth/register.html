@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/register.css')}}">
     <title>Register</title>
 </head>
 <body>
@@ -13,8 +14,16 @@
         {{form.password()}}
         {{form.repeat_password()}}
         {{form.email()}}
-        {{form.remember_me()}}
+        <div class="container">
+            <div class="container-remember">
+                <label for="remember_me">remember me</label>
+                {{form.remember_me()}}</div>
+            <a href="{{url_for('auth_bp.login')}}">login</a>
+        </div>
         {{form.register()}}
+        {%with messages = get_flashed_messages()%}
+        <p class="messages">{{messages[0]}}</p>
+        {%endwith%}
     </form>
 </body>
 </html>

@@ -3,10 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/post.css')}}">
     <title>Post</title>
 </head>
 <body>
-    {{post.title}}
-    {{post.body}}
+    <form action="{{url_for('post_bp.post',token=post_token)}}" method="post" novalidate class="likes_dislikes">
+        {{form.hidden_tag()}}
+        {{form.csrf_token()}}
+        {{form.like()}}
+        {{form.dislike()}}
+        {{avg_likes}}
+    </form>
+    <header>
+        {%include 'profile/_search_form.html'%}
+        <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
+        <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('profile_bp.profile',token=token)}}" style="border: solid 0px;">
+            <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
+        </a>
+    </header>
+    <h1>{{post.title}}</h1>
+    <div>
+        {{post.body}}
+    </div>
 </body>
 </html>

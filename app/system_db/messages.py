@@ -14,5 +14,5 @@ class Messages:
         from app.system_db.models import Messages
         from app.system_db.models import Users
         with db_session() as session:
-            messages = session.query(Messages,Users.username).join(Users,Messages.user_id == Users.user_id).order_by(Messages.message_id.desc()).all()
+            messages = session.query(Messages,Users.avatar,Users.username).join(Users,Messages.user_id == Users.user_id).order_by(Messages.message_id.desc()).all()
             return messages

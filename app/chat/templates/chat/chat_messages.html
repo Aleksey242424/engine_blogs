@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/chat_messages.css')}}">
+    <title>message</title>
+</head>
+<body>
+    <header>
+        {% include 'chat/_search_form.html' %}
+        <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
+        <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('post_bp.create_post')}}">create post</a>
+        {%set username_token = g.token('username',current_user.username)%}
+        <a href="{{url_for('profile_bp.profile',token=username_token)}}" style="border: solid 0px;">
+            <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
+        </a>
+    </header>
+    <div class="wraper">
+        {%for message in messages%}
+            {%if current_user.username == message.username%}
+            <div class="first_user">
+                <p class="date">{{moment(message.date_send).format('LLL')}}</p>
+                <p class="message">{{message.message}}</p>
+            </div>
+            {%else%}
+            <div class="second_user">
+                <p class="date">{{moment(message.date_send).format('LLL')}}</p>
+                <p class="message">{{message.message}}</p>
+            </div>
+            {%endif%}
+            {{moment.include_moment()}}
+            {{moment.lang('ru')}}
+        {%endfor%}
+    </div>
+
+    <form action="{{url_for('chat_bp.messages')}}" method="post" novalidate class="form_message">
+        {{form.hidden_tag()}}
+        {{form.csrf_token()}}
+        {{form.message()}}
+        {{form.send()}}
+    </form>
+</body>
+</html>
