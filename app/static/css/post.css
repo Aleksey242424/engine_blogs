@@ -55,3 +55,14 @@ div{
     top:80%;
     font-size: 24px;
 }
+.autor{
+    position: absolute;
+    top: 10%;
+    left: 0;
+    display: flex;
+    align-items: center;
+}
+.autor>h1{
+    font-size: 24px;
+    margin-right: 20px;
+}

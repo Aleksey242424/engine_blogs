@@ -39,7 +39,6 @@ class Posts(Base):
     post_id:Mapped[int] = mapped_column(primary_key=True)
     title:Mapped[str] = mapped_column(nullable=False)
     body:Mapped[str] = mapped_column(nullable=False)
-    preview:Mapped[str] = mapped_column(default='default_preview.jpg')
     user_id:Mapped[int] = mapped_column(ForeignKey('users.user_id',ondelete='CASCADE',onupdate='CASCADE'))
 
 class LikesDislikes(Base):

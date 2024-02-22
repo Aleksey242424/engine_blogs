@@ -18,13 +18,20 @@
         {%include 'profile/_search_form.html'%}
         <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
         <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('post_bp.posts')}}">posts</a>
         <a href="{{url_for('profile_bp.profile',token=token)}}" style="border: solid 0px;">
             <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
         </a>
     </header>
-    <h1>{{post.title}}</h1>
+    <a href="{{url_for('profile_bp.profile',token=g.token('username',post[1]))}}">
+        <div class="autor">
+            <h1>{{post[1]}}</h1>
+            <img src="{{url_for('static',filename=post[2])}}" width="50px" height="50px">
+        </div>
+    </a>
+    <h1>{{post[0].title}}</h1>
     <div>
-        {{post.body}}
+        {{post[0].body}}
     </div>
 </body>
 </html>

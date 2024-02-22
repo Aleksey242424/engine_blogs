@@ -11,6 +11,7 @@
         {% include 'chat/_search_form.html' %}
         <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
         <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('post_bp.posts')}}">posts</a>
         <a href="{{url_for('post_bp.create_post')}}">create post</a>
         {%set username_token = g.token('username',current_user.username)%}
         <a href="{{url_for('profile_bp.profile',token=username_token)}}" style="border: solid 0px;">

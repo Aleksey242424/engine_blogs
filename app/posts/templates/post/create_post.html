@@ -9,6 +9,7 @@
 <body>
     <header>
         <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('post_bp.posts')}}">posts</a>
         <a href="{{url_for('profile_bp.profile',token=token)}}" style="border: solid 0px;">
             <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
         </a>
@@ -18,7 +19,7 @@
         {{form.csrf_token()}}
         {{form.post_name()}}
         {{form.body()}}
-        {{form.creat_post()}}
+        {{form.create_post()}}
     </form>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/posts.css')}}">
     <title>Posts</title>
 </head>
 <body>
@@ -11,12 +12,35 @@
         <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
         <a href="{{url_for('chat_bp.chat')}}">chat</a>
         <a href="{{url_for('post_bp.create_post')}}">create post</a>
+        {%set username_token = g.token('username',current_user.username)%}
+        <a href="{{url_for('profile_bp.profile',token=username_token)}}" style="border: solid 0px;">
+            <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
+        </a>
     </header>
-    {%for post in posts%}
-    <div>
-        {{post.title}}
-        {{post.body}}
+    <div class="wraper">
+        <div class="post-container">
+            {%if posts%}
+                {%for post in posts%}
+                    <a href='{{url_for("post_bp.post",token=g.token("post_id",post.post_id))}}' class="post">
+                        {{post.title}}
+                    </a>
+                {%endfor%}
+            {%else%}
+            <p class="message">Здесь пока пусто</p>
+            {%endif%}
+        </div>
     </div>
-    {%endfor%}
+    <div class="page-container">
+        {%for i in range(group)%}
+        {%if i+1 == page%}
+        <a href="{{url_for('post_bp.posts',page=i+1)}}">...</a>
+        {%else%}
+            <a href="{{url_for('post_bp.posts',page=i+1)}}">{{i+1}}</a>
+        {%endif%}
+        {%endfor%}
+    </div> 
+
+    
+    
 </body>
 </html>

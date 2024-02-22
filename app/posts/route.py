@@ -7,24 +7,37 @@ from flask import render_template,redirect,url_for,g,request
 from app._jwt import decode_token
 from app.system_db.elastic import get_posts
 
-@posts_bp.route('/')
+@posts_bp.route('/',methods=['GET','POST'])
 @login_required
 def posts():
-    posts = Posts.get_recom_posts(1)
+    if request.args.get('page'):
+        page = request.args.get('page')
+    else:
+        page = 1
+    posts = Posts.get_recom_posts(page)
+    group = Posts.get_count_posts_group()
     form_search = g.search
+    if form_search.validate_on_submit():
+        search = form_search.search.data
+        return redirect(url_for('post_bp.search_posts',search=search))
     return render_template('post/posts.html',
                            posts=posts,
-                           form_search=form_search)
+                           form_search=form_search,
+                           group = group,
+                           page=int(page))
 
 @posts_bp.route('/create_post',methods=['GET','POST'])
 @login_required
 def create_post():
     form = PostNameBodyForm()
-    if form.validate_on_submit():
-        title = form.post_name.data
-        body = form.body.data
-        Posts.add(title,body,current_user.user_id)
-        return redirect(url_for('profile_bp.profile',token=g.token('username',current_user.username)))
+    if request.method == 'POST':
+        if request.form.get('create_post') == 'create_post':
+            title = form.post_name.data
+            body = form.body.data
+            Posts.add(title,body,current_user.user_id)
+            return redirect(url_for('profile_bp.profile',token=g.token('username',current_user.username)))
+
+    
     return render_template('post/create_post.html',
                            form=form,
                            token=g.token('username',current_user.username))

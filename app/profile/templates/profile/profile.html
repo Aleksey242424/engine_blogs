@@ -10,6 +10,7 @@
     <header>
         {%include 'profile/_search_form.html'%}
         <a href="{{url_for('chat_bp.chat')}}">chat</a>
+        <a href="{{url_for('post_bp.posts')}}">posts</a>
         <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
         <a href="{{url_for('post_bp.create_post')}}">create post</a>
     </header>
