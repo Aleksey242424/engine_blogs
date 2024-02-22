@@ -19,6 +19,7 @@
     </header>
     <div class="wraper">
         {%for message in messages%}
+        <p class="date" style="text-align: center;">{{moment(message[0].date_send).fromNow()}}</p>
         <div class="message">
             {%set username_token = g.token('username',message[2])%}
             <a href='{{url_for("profile_bp.profile",token=username_token)}}' style="border: solid 0px;">
@@ -28,7 +29,7 @@
                 <a href='{{url_for("profile_bp.profile",token=username_token)}}' style="border: solid 0px; color: black;">
                     {{message.username}}
                 </a>
-                <p class="date">{{moment(message[0].date_send).fromNow()}}</p>
+                
                 <p class="message_user">{{message[0].message}}</p>
             </div>
         </div>

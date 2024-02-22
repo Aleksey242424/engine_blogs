@@ -46,11 +46,8 @@ input[type='submit']{
     width: 30%;
 }
 .date{
-    align-self: end;
+    margin: 0 auto;
     color: rgba(0, 0, 0, 0.435);
-}
-p{
-    display: inline;
 }
 form{
     margin-left: 10px;
