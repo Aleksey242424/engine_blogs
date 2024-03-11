@@ -86,7 +86,6 @@ a{
     width: 500px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     margin-top: 20px;
     overflow-x: scroll;
     border: solid 2px #003366;

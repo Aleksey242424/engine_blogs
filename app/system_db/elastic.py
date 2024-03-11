@@ -1,20 +1,13 @@
-from elasticsearch import Elasticsearch
-from flask import current_app
+from app.system_db import db_session
+from app.system_db.models import Posts
+from sqlalchemy import or_
 
-def create_index(name):
-    es:Elasticsearch = current_app.es
-    es.indices.create(index=name)
 
-def add_post(index_name,post_name,body,post_id):
-    es:Elasticsearch = current_app.es
-    doc_post = {
-                'post_name':post_name,
-                'body':body
-                }
-    es.index(index=index_name,id=post_id,document=doc_post)
 
-def get_posts(index_name,data):
-    es:Elasticsearch = current_app.es
-    result = es.search(index=index_name,query={'multi_match':{'query':data,'fields':['post_name','body']}})
-    return result['hits']['hits']
+def get_posts(data):
+    data = f"%{data}%"
+    with db_session() as session:
+        posts = session.query(Posts.post_id,Posts.title).filter(or_(Posts.title.like(data),
+                                                Posts.body.like(data))).all()
+        return posts
 

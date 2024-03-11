@@ -8,7 +8,6 @@ from flask_login import current_user,login_required
 from app.system_db import db_session
 from werkzeug.utils import secure_filename
 
-
 @profile_bp.route('/<token>',methods=['GET','POST'])
 @login_required
 def profile(token):
@@ -30,6 +29,7 @@ def profile(token):
         elif request.form.get('change_avatar') == 'change avatar':
             file = form_avatar.avatar.data
             if getattr(file,'filename',None):
+                
                 file.filename = secure_filename(f'{current_user.username}.jpg')
                 file.save(f'{current_app.config["UPLOAD_FOLDER"]}/{file.filename}')
                 Users.update_avatar(current_user.user_id,f'images/avatars/{file.filename}')

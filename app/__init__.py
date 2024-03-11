@@ -13,7 +13,7 @@ def create_app(config=Config):
     app = Flask(__name__)
     app.config.from_object(config)
     login.init_app(app)
-    app.es = Elasticsearch(hosts=[app.config['ELASTICSEARCH_HOST']],basic_auth=(app.config['ELASTICSEARCH_USERNAME'],app.config['ELASTICSEARCH_PASSWORD']))
+    #app.es = Elasticsearch(hosts=[app.config['ELASTICSEARCH_HOST']],basic_auth=(app.config['ELASTICSEARCH_USERNAME'],app.config['ELASTICSEARCH_PASSWORD']))
     login.login_view = 'auth_bp.login'
     login.login_message = 'Пожалуйста авторизуйтесь'
     mail.init_app(app)

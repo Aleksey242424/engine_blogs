@@ -79,7 +79,7 @@ def search_posts(search):
     if form_search.validate_on_submit():
         search = form_search.search.data
         return redirect(url_for('post_bp.search_posts',search=search))
-    posts = get_posts('index_post',search)
+    posts = get_posts(search)
     count_group = int(-1*(len(posts)/3)//1*-1)
     posts = posts[(int(page)-1)*3:int(page)*3]
     return render_template('post/search_posts.html',

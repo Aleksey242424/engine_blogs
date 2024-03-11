@@ -6,17 +6,10 @@ class Posts:
     @staticmethod
     def add(title,body,user_id):
         from app.system_db.models import Posts
-        from app.system_db.elastic import add_post
         with db_session() as session:
             session.add(Posts(title=title,body=body,user_id=user_id))
             session.commit()
-        from app.system_db.posts import Posts
-        last_id = Posts.get_last_id()
-        if last_id:
-            add_post('index_post',title,body,last_id[0])
-        else:
-            add_post('index_post',title,body,1)
-
+            
     @staticmethod
     def get(post_id):
         from app.system_db.models import Posts

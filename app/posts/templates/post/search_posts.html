@@ -9,10 +9,10 @@
 <body>
     <header>
         {%include 'profile/_search_form.html'%}
-        <a href="{{url_for('chat_bp.chats_user')}}">messages</a>
-        <a href="{{url_for('chat_bp.chat')}}">chat</a>
-        <a href="{{url_for('post_bp.posts')}}">posts</a>
-        <a href="{{url_for('post_bp.create_post')}}">create post</a>
+        <a href="{{url_for('chat_bp.chats_user')}}">сообщения</a>
+        <a href="{{url_for('chat_bp.chat')}}">чат</a>
+        <a href="{{url_for('post_bp.posts')}}">посты</a>
+        <a href="{{url_for('post_bp.create_post')}}">создать пост</a>
         <a href="{{url_for('profile_bp.profile',token=token)}}" style="border: solid 0px;">
             <img src="{{url_for('static',filename=current_user.avatar)}}" width="60px" height="60px" title="profile">
         </a>
@@ -21,7 +21,7 @@
         <div class="post-container">
             {%if posts%}
                 {%for data in posts%}
-                <a href='{{url_for("post_bp.post",token=g.token("post_id",data["_id"]))}}' class="post">{{data['_source']['post_name']}}</a><br>
+                <a href='{{url_for("post_bp.post",token=g.token("post_id",data[0]))}}' class="post">{{data[1]}}</a><br>
                 {%endfor%}
             {%else%}
             <p class="message">По вашему запросу ничего не найдено</p>
@@ -36,6 +36,6 @@
             <a href="{{url_for('post_bp.search_posts',search=search,page=i+1)}}">{{i+1}}</a>
         {%endif%}
         {%endfor%}
-    </div> 
+    </div>
 </body>
 </html>

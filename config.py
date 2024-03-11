@@ -1,10 +1,10 @@
-from os import getenv
+from os import getenv,urandom
 from dotenv import load_dotenv
 
 class Config:
     load_dotenv()
     DEBUG = True
-    SECRET_KEY = getenv('SECRET_KEY')
+    SECRET_KEY = urandom(20)
     UPLOAD_FOLDER = getenv('UPLOAD_FOLDER')
     JWT_KEY = getenv('JWT_KEY')
     MAIL_SERVER = getenv('MAIL_SERVER')
